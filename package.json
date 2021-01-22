@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.11.0",
+    "cookie-parser": "~1.4.4",
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -22,9 +23,6 @@
     "nodemailer": "^6.4.17",
     "stripe": "^8.132.0",
     "morgan": "~1.9.1"
-  },
-   "engines": {
-    "node": "14.15.4",
-    "npm": "6.14.10"
   }
+
 }
