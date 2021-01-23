@@ -151,11 +151,12 @@ router.get("/getBySubCategory/:subcategoryID", async (req, res) => {
 
 //////  uploadfile
 // auth,
-router.post("/uploadfile",auth,upload.single('file'), 
+router.post("/uploadfile",upload.single('file'), 
 
   
     async (req, res) => {
-
+console.log('test route');
+console.log(req.body);
       try {
        // const token = req.header('x-auth-token');
        // console.log(token);
