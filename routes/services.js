@@ -214,7 +214,73 @@ serviceImage:Isfile,
 
 // ###############################################################
 
- 
+
+
+ ///#### upload file2 
+
+ router.post("/uploadfilee",upload.single('file'), 
+
+  
+ async (req, res) => {
+// console.log('test route');
+// console.log(req.body);
+   try {
+    // const token = req.header('x-auth-token');
+    // console.log(token);
+//console.log(req.file.path);
+// const obj = JSON.parse(req.body.document);
+// const User = JSON.parse(req.body.user);
+// const { name, description, rating, price, subCategoryID } = obj;
+
+//  const name=req.body.document[0]
+//  const description=req.body.document.description
+//  const rating=req.body.document.rating
+//  const price=req.body.document.price
+//  const subCategoryID=req.body.document.subCategoryID
+// console.log(obj);
+// console.log(name);
+// console.log(description);
+// console.log(rating);
+// console.log(price);
+// console.log(subCategoryID);
+// console.log('user info');
+// console.log(User.auth.user.email); 
+// console.log(req.user.id);
+// let Isfile='no image'
+// try {
+ console.log('ssss');
+//  if(req.file)  {Isfile=req.file.path}
+// // Isfile=req.file.path
+// } catch (error) {
+//  console.log(error);
+// }
+// const newService = new Service({
+//  name,
+//  description,
+//  rating,
+//  price,
+//  subCategoryID,
+// //serviceImage: req.file.path,
+// serviceImage:Isfile,
+// userID: req.user.id,
+// //userID:"5f54f79720960f4618748bbe"    // Emad type your DI here , you can get in from the local storage
+// });
+
+// const service = await newService.save();
+
+
+
+  const file= req.file.path
+     res.json({filenameName:file});
+   } catch (err) {
+     console.error(err.message);
+     res.status(500).send("Server Error");
+   }
+ }
+);
+
+
+ //// end upload file 2
 
 
 
