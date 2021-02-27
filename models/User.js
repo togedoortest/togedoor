@@ -28,7 +28,18 @@ const UserSchema = mongoose.Schema(
       type: Array,
       ref: "Messages",
     },
-
+    conversations: {
+      type: Array,
+      ref: "Conversations",
+    },
+    picture: {
+      type: String,
+      required: false,
+    },
+    userType: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

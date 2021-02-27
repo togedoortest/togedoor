@@ -3,8 +3,48 @@ const router = express.Router();
 const bcrypt = require("bcryptjs");
 const auth = require("../middleware/auth");
 const jwt = require("jsonwebtoken");
-
+const multer = require("multer");
 const User = require("../models/User");
+const fs = require('fs')
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + '.png') 
+  }
+})
+
+var upload = multer({ storage: storage })
+
+// const path = user.picture
+
+// fs.unlink(path, (err) => {
+//   if (err) {
+//     console.error(err)
+//     return
+//   }
+// console.log('removed Image');
+//   //file removed
+// })
+   
+router.post("/uploadfilee",upload.single('file'), 
+
+  
+ async (req, res) => {
+
+   try {
+ console.log('ssss');
+  const file= req.file.path
+     res.json({filenameName:file});
+   } catch (err) {
+     console.error(err.message);
+     res.status(500).send("Server Error");
+   }
+ }
+);
+
 
 // @route     GET /users
 // @desc      Get all users
@@ -86,7 +126,7 @@ router.get("/", auth, async (req, res) => {
 // @desc      Register User
 // @access    Public
 router.post("/signup", async (req, res) => {
-  const { firstname, lastname, email, address, password } = req.body;
+  const { firstname, lastname, email, address, password ,picture} = req.body;
   try {
     let user = await User.findOne({ email });
 
@@ -100,6 +140,8 @@ router.post("/signup", async (req, res) => {
       email,
       address,
       password,
+      picture,
+      userType:"Local User",
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -173,32 +215,113 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// router.patch("/:id",auth,upload.single('file'), 
+// async (req, res) => {
+//   const { firstname, lastname, email, address, password ,picture} = req.body;
+//   const User = JSON.parse(req.body.user);
+//   let Isfile='no image'
+//   try {
+//     if(req.file)  {Isfile=req.file.path}
+//    // Isfile=req.file.path
+//   } catch (error) {
+//     console.log(error);
+//   }
+
+//   const updateFields = {
+//     firstname,
+//     lastname,
+//     email,
+//     address,
+//     password,
+//     picture:Isfile,
+//   };
+
+//   try {
+//     let user = await User.findByIdAndUpdate(
+//       req.params.id,
+//       { $set: updateFields },
+//       { new: true }
+//     );
+//     res.json(user);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
+
+
 // @route     PATCH /users
 // @desc      Update user
 // @access    Public
-router.patch("/:id", async (req, res) => {
-  const { firstname, lastname, email, address, password } = req.body;
-
+router.patch("/uploadfile",upload.single('file'), async (req, res) => {
+  console.log(req.body)
+  console.log(req.body.user)
+  const User2 = JSON.parse(req.body.user);
+  console.log(User2._id)
+    let Isfile='no image'
+     try {
+       if(req.file)  {Isfile=req.file.path}
+      // Isfile=req.file.path
+     } catch (error) {
+       console.log(error);
+    }
   const updateFields = {
-    firstname,
-    lastname,
-    email,
-    address,
-    password,
+    firstname:User2.firstname,
+    lastname:User2.lastname,
+    email:User2.email,
+    address:User2.address,
+    password:User2.password,
+    picture:Isfile,
   };
-
+  console.log(updateFields);
   try {
-    let user = await User.findByIdAndUpdate(
-      req.params.id,
-      { $set: updateFields },
-      { new: true }
-    );
-    res.json(user);
-  } catch (err) {
+    let user = await User.findById( User2._id);
+   const path = user.picture
+
+fs.unlink(path, (err) => {
+  if (err) {
+    console.error(err)
+    return
+    
+  }
+  console.log("picture removed")
+})
+}catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
+  
+  try {
+    let user = await User.findById(User2._id);
+
+    
+    console.log(user._id);
+
+user = await User.findByIdAndUpdate(
+  User2._id,
+ {$set: { picture: Isfile } } ,
+  { new: true }
+  );
+   res.json(user)
+  console.log("Picture Update")
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  };
+
+  
 });
+  // try {
+  //   let user = await User._id.findByIdAndUpdate(
+  //     {_id: req.params._id } ,
+  //     { picture:Isfile },
+  //   );
+  //   res.json(user);
+  // } catch (err) {
+  //   console.error(err.message);
+  //   res.status(500).send("Server Error");
+  // }
+// });
 
 // @route     DELETE /users
 // @desc      Delete user

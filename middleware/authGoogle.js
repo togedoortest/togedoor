@@ -38,7 +38,7 @@ if(email_verified){
    
 /////
 // router.post("/signup", async (req, res) => {
-     const { name, family_name, email,} = payload;
+     const { name, family_name, email,picture, iss} = payload;
     try {
       let user = await User.findOne({ email });
   
@@ -58,8 +58,8 @@ if(email_verified){
         firstname:name,
         lastname:family_name,
         email:email,
-       
-        
+        picture:picture,
+        userType:iss
       });
   
     //   const salt = await bcrypt.genSalt(10);

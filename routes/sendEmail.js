@@ -44,7 +44,7 @@ var transporter = nodemailer.createTransport({
 
 // Step 2
 let mailOptions = {
-    from: 'togedoorJS@gmail', // TODO: email sender
+    from: 'togedoorJS@gmail.com', // TODO: email sender
     to: ProviderEmail, // TODO: email receiver
     subject: Title,
     text: Message,

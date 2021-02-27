@@ -156,14 +156,14 @@ router.post("/uploadfile",auth,upload.single('file'),
   
     async (req, res) => {
 // console.log('test route');
-// console.log(req.body);
+ console.log(req.body);
       try {
        // const token = req.header('x-auth-token');
        // console.log(token);
  //console.log(req.file.path);
  const obj = JSON.parse(req.body.document);
  const User = JSON.parse(req.body.user);
-const { name, description, rating, price, subCategoryID } = obj;
+const { name, description, rating, price, subCategoryID , userName , categoryName } = obj;
 
 //  const name=req.body.document[0]
 //  const description=req.body.document.description
@@ -176,10 +176,12 @@ const { name, description, rating, price, subCategoryID } = obj;
    console.log(rating);
    console.log(price);
    console.log(subCategoryID);
-   console.log('user info');
+   console.log(categoryName);
+      console.log('user info');
   console.log(User.auth.user.email); 
   console.log(req.user.id);
-  let Isfile='no image'
+  console.log(User.auth.user.firstname);
+    let Isfile='no image'
   try {
     
     if(req.file)  {Isfile=req.file.path}
@@ -193,15 +195,15 @@ const { name, description, rating, price, subCategoryID } = obj;
     rating,
     price,
     subCategoryID,
-  //serviceImage: req.file.path,
-serviceImage:Isfile,
+    categoryName,
+      //serviceImage: req.file.path,
+    serviceImage:Isfile,
    userID: req.user.id,
-   //userID:"5f54f79720960f4618748bbe"    // Emad type your DI here , you can get in from the local storage
+   userName: User.auth.user.firstname,
+      //userID:"5f54f79720960f4618748bbe"    // Emad type your DI here , you can get in from the local storage
   });
 
   const service = await newService.save();
-
-
 
 
         res.json(service);
@@ -392,7 +394,7 @@ service = await Service.findByIdAndUpdate(
     res.status(500).send("Server Error");
   }
 });
-
+ 
 // @route     DELETE /service
 // @desc      Delete service
 // @access    Private

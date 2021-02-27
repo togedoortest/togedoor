@@ -31,6 +31,14 @@ const ServiceSchema = mongoose.Schema(
       ref: "SubCategory",
       required: true,
     },
+    categoryName: {
+      type: String,
+      required: true,
+    },
+    userName: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

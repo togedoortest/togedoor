@@ -2,18 +2,15 @@ const mongoose = require("mongoose");
 
 const MessagesSchema = mongoose.Schema(
   {
-    title: {
-      type: String,
-      required: true,
-    },
-    topic: {
+ 
+    Topic: {
       type: String
      
     },
     
-    userID: {
+    conversationsID: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Conversations",
       required: true,
     },
   },
